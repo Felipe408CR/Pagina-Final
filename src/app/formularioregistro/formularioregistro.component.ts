@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms'
+import { MercanciasService } from '../services/mercancias.service';
 
 @Component({
   selector: 'app-formularioregistro',
@@ -10,7 +11,10 @@ export class FormularioregistroComponent implements OnInit {
 
   formulario!:FormGroup;
 
-  constructor(public fabricaDiccionario:FormBuilder) { }
+  constructor(
+    public fabricaDiccionario:FormBuilder,
+    public servicioMercancias:MercanciasService
+    ){ }
 
   ngOnInit(): void {
 
@@ -24,20 +28,32 @@ export class FormularioregistroComponent implements OnInit {
 
   public inicializarFormulario():FormGroup{
     return this.fabricaDiccionario.group({
-      iup:['Juan',[Validators.required,Validators.minLength(6)]],
-      tiporemitente:['empresa',[Validators.required]],
-      idremitente:['123456789',[Validators.required]],
-      nombreremitente:['ANDERCOL',[Validators.required]],
-      deptoremitente:['Antioquia',[Validators.required]],
-      municipioremitente:['Envigado',[Validators.required]],
-      direccionremitente:['cr 50 sur #10-20',[Validators.required]],
-      tipodestinatario:['empresa',[Validators.required]],
-      iddestinatario:['1112131415',[Validators.required]],
-      nombredestinatario:['COMFAMA',[Validators.required]],
-      deptodestinatario:['Antioquia',[Validators.required]],
-      municipiodestinatario:['Medellin',[Validators.required]],
-      direcciondestinatario:['cll 50#32-20',[Validators.required]],
+      iup:['',[Validators.required]],
+      tiporemitente:['',[Validators.required]],
+      idremitente:['',[Validators.required]],
+      nombreremitente:['',[Validators.required]],
+      deptoremitente:['',[Validators.required]],
+      municipioremitente:['',[Validators.required]],
+      direccionremitente:['',[Validators.required]],
+      tipodestinatario:['',[Validators.required]],
+      iddestinatario:['',[Validators.required]],
+      nombredestinatario:['',[Validators.required]],
+      deptodestinatario:['',[Validators.required]],
+      municipiodestinatario:['',[Validators.required]],
+      direcciondestinatario:['',[Validators.required]],
     })
+  }
+
+  public buscarMercancia(){
+
+    let iup=this.formulario.value.iup
+    this.servicioMercancias.buscarMercanciaPorId(iup)
+    .subscribe(
+
+      respuesta=>{console.log(respuesta)}
+
+    )
+
   }
 
 }

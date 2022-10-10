@@ -12,7 +12,7 @@
             <span class="input-group-text">
                 <i class="bi bi-box-seam-fill"></i>
             </span>
-            <input type="text" class="form-control" placeholder="IUP" formControlName="iup">
+            <input type="text" class="form-control" placeholder="IUP" formControlName="iup" (blur)="buscarMercancia()">
         </div>
         <div *ngIf="formulario.get('iup')?.touched && formulario.get('iup')?.errors?.['required']" class="form-text text-danger fw-bold">Este campo es obligatorio</div>
         <div *ngIf="formulario.get('iup')?.touched && formulario.get('iup')?.errors?.['minlength']" class="form-text text-danger fw-bold">Este campo debe tener al menos 6 caractéres</div>
@@ -128,4 +128,3 @@
     <button type="submit" class="btn btn-warning w-100">Registrar</button>
 
 </form>
-       
