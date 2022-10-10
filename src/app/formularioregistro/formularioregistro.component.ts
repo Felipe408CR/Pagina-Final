@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms'
 import { MercanciasService } from '../services/mercancias.service';
+import { ZonasService } from '../services/zonas.service';
 
 @Component({
   selector: 'app-formularioregistro',
@@ -11,14 +12,28 @@ export class FormularioregistroComponent implements OnInit {
 
   formulario!:FormGroup;
 
+  controlDeZona:boolean=true;
+
+  datosZonas:any[]=[];
+
   constructor(
     public fabricaDiccionario:FormBuilder,
-    public servicioMercancias:MercanciasService
+    public servicioMercancias:MercanciasService,
+    public servicioZonas:ZonasService
     ){ }
 
   ngOnInit(): void {
 
     this.formulario=this.inicializarFormulario()
+    this.servicioZonas.consultarZonas()
+    .subscribe(respuesta=>{
+      
+      this.datosZonas=respuesta.map((zona:any)=>{
+        return {nombre:zona.nombre}
+      })
+
+    })
+    console.log(this.datosZonas)
 
   }
 
@@ -45,12 +60,41 @@ export class FormularioregistroComponent implements OnInit {
   }
 
   public buscarMercancia(){
-
+    console.log(this.datosZonas);
     let iup=this.formulario.value.iup
     this.servicioMercancias.buscarMercanciaPorId(iup)
     .subscribe(
 
-      respuesta=>{console.log(respuesta)}
+      respuesta=>{
+
+       this.formulario.patchValue({
+
+        tiporemitente:respuesta.tipoRemitente,
+        idremitente:respuesta.idRemitente,
+        nombreremitente:respuesta.nombreRemitente,
+        deptoremitente:respuesta.deptoRemitente,
+        municipioremitente:respuesta.municipioRemitente,
+        direccionremitente:respuesta.direccionRemitente,
+
+        tipodestinatario:respuesta.tipoDestinatario,
+        iddestinatario:respuesta.idDestinatario,
+        nombredestinatario:respuesta.nombreDestinatario,
+        deptodestinatario:respuesta.deptoDestinatario,
+        municipiodestinatario:respuesta.municipioDestinatario,
+        direcciondestinatario:respuesta.direccionDestinatario,
+       })
+       this.controlDeZona=false
+       this.formulario.disable()
+       this.formulario.controls['iup'].enable()
+
+      },
+      error=>{
+        console.log(error.error)
+        this.formulario.enable()
+        this.controlDeZona=true
+
+      }
+
 
     )
 
