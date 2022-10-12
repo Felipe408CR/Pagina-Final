@@ -1,2 +1,94 @@
 <app-menu></app-menu>
-<p>mercancia works!</p>
+<br><br>
+<div class="row mt-5">
+    <div class="col-6 container">
+      <h2 class="mt-4 text-center">Disponibilidad</h2>
+      <app-grafica class="mx-5 d-block m-xxl-auto "></app-grafica>
+    </div>
+  </div>
+
+
+
+<div class="input-group flex-nowrap my-5 w-50 ms-5">
+    <span class="input-group-text" id="addon-wrapping"><i class="bi bi-box-seam-fill"></i></span>
+    <input type="text" class="form-control" placeholder="IUP" formControlName="IUP">
+</div>
+
+  <table class="table table-bordered container ">
+    <thead>
+      <tr>
+        <th scope="col">IUP</th>
+        <th scope="col">Tipo remitente</th>
+        <th scope="col">Identificacion Remitente</th>
+        <th scope="col">Nombre Remitente</th>
+        <th scope="col">Depto Remitente</th>
+        <th scope="col">Direccion Remitente</th>
+        <th scope="col">Tipo Destinatario</th>
+        <th scope="col">Identificacion Destinatario</th>
+        <th scope="col">Nombre Destinatario</th>
+        <th scope="col">Depto Destinatario</th>
+        <th scope="col">Direccion Destinatario</th>
+      </tr>
+    </thead>
+    <tbody >
+        <tr *ngFor="let dato of datosZonas">
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.iup}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.tipoRemitente}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.idRemitente}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.nombreRemitente}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.deptoRemitente}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.direccionRemitente}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.tipoDestinatario}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.idDestinatario}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.nombreDestinatario}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.deptoDestinatario}}
+          </td>
+          <td *ngFor="let mercancia of dato.mercancias">
+            {{mercancia.direccionDestinatario}}
+          </td>
+        </tr>
+
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mt-4 text-center my-5">Mercancias en cuarto</h2>
+      <div class="row row-cols-1 row-cols-md-2 g-3 my-3" *ngFor="let dato of datosZonas">
+        <div class="col my-3" *ngFor="let mercancia of dato.mercancias">
+            
+          <div class="card">
+
+            <h2 class="text-center text-muted">zona: {{dato.nombre}}</h2>
+            <h2 class="text-center text-muted">{{mercancia.nombre}}</h2>
+            <h3 class="text-center text-muted">volumen ocupado:{{mercancia.volumen}} u3</h3>
+            <h2 class="text-center text-muted">IUP:{{mercancia.iup}}</h2>
+            <button (click)="retirarMercancia(mercancia.iup)" class="btn btn-warning m-2" type="button">Retirar del cuarto</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
